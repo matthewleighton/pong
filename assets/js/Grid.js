@@ -1,10 +1,12 @@
 class Grid {
-	constructor(height, width, ID) {
-		this.height = height;
-		this.width = width;
-		this.ID = ID;
+	constructor(config) {
+		this.config = config;
 
-		this.render(ID);
+		this.height = config.height;
+		this.width = config.width;
+		this.container = config.container;
+
+		this.render(this.container);
 	}
 
 	render() {
@@ -12,7 +14,9 @@ class Grid {
 			this.gridArray = this.createGridArray();
 		};
 
-		let container = document.getElementById(this.ID);
+		console.log(this.gridArray);
+
+		let container = document.getElementById(this.container);
 
 		for (var y = 0; y < this.gridArray.length; y++) {
 			var row = document.createElement('div');
@@ -27,12 +31,9 @@ class Grid {
 				row.appendChild(square);
 			}
 
-			//console.log(row);
-
 			container.appendChild(row);
 		};
 
-		//console.log(container);
 	}
 
 	createGridArray() {
@@ -42,19 +43,12 @@ class Grid {
 			var row = [];
 
 			for (var x = 0; x < this.width; x++) {
-				row.push(new Square(x, y));
+				row.push(new Square(x, y, this.config));
 			}
 
 			gridArray.push(row);
 		}
 
-		//console.log(gridArray);
 		return gridArray;
 	}
 }
-
-class Square {
-
-}
-
-var myGrid = new Grid(10, 10, 'container');
