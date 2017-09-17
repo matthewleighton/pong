@@ -22,20 +22,17 @@ class Game {
 		this.grid = new Grid(this);
 
 		this.grid.spawnPaddle(1);
+		this.grid.spawnPaddle(2);
 	}
 
 	setPixelSizeCSS() {
-
 		var resolution = this.height;
 		var pixelSize = 100 / resolution;
 
 		var css = ".square{width:" + pixelSize + "%;}";
 		css += ".row{height:" + pixelSize + "%;}";
 
-		
-		console.log(css);
 		document.getElementsByTagName('style')[0].innerHTML = css;
-		//document.getElementsByTagName('style')[0].innerHTML = ".square{width:calc(100%/50);}.row{height:2%;}";
 	}
 
 	setGameSize() {

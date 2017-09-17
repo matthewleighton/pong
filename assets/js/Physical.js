@@ -32,13 +32,31 @@ class Physical {
 	}
 
 	percentageToPixel(percentage) {
-		console.log('percentageToPixel');
+		return Math.floor((this.resolution / 100) * percentage);
+	}
 
-		var pixel = Math.floor((this.resolution / 100) * percentage);
+	// This draws an object by coloring every square between the object's top left and bottom right.
+	drawSquares() {
+		var topLeft = {
+			x: this.originX - this.xFromOrigin,
+			y: this.originY - this.yFromOrigin
+		};
+		this.grid.getSquare(topLeft['x'], topLeft['y']).setSquareType('test');
 
-		console.log(pixel)
+		var bottomRight = {
+			x: this.originX + this.xFromOrigin,
+			y: this.originY + this.yFromOrigin
+		};
+		this.grid.getSquare(bottomRight['x'], bottomRight['y']).setSquareType('test');
 
-		return pixel;
+		for (var x = topLeft['x']; x <= bottomRight['x']; x++) {
+			for (var y = topLeft['y']; y <= bottomRight['y']; y++) {
+				this.grid.getSquare(x, y).setSquareType('paddle');
+			}
+		}
+
+		// Test line - remove later.
+		this.grid.getSquare(this.originX, this.originY).setSquareType('test');
 	}
 
 }

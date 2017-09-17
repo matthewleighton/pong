@@ -18,7 +18,7 @@ class Grid {
 	createGrid(render = true) {
 		var gridArray = [];
 
-		for (var y = 0; y < this.height; y++) {
+		for (/*var y = 0; y < this.height; y++*/ var y = this.height-1; y >=0; y--) {
 			var rowArray = [];
 
 			if (render) {

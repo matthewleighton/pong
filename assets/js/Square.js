@@ -44,7 +44,8 @@ class Square {
 			ball: white,
 			empty: black,
 			goal: 'blue',
-			paddle: white
+			paddle: white,
+			test: 'red'
 		};
 
 		if (squareType in colorCodes) {
