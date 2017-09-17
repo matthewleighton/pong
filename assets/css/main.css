@@ -2,11 +2,6 @@ body {
 	margin: 0;
 }
 
-/*#container {
-	width: 500px;
-	height: 500px;
-}*/
-
 #container {
 	margin: 0 auto;
 }
@@ -15,17 +10,11 @@ body {
 	background-color: pink;
 	display: inline-block;
 	height: 100%;
-	width: calc(100% / 100);
-
-	/*
-		Width should be equal to the same value as height.
-
-
-	 */
+	/*width: calc(100% / 50);*/
 }
 
 .row {
-	height: 1%;
+	/*height: 2%;*/
 	width: 100%;
 	font-size: 0;
 }

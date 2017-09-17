@@ -11,15 +11,27 @@ class Game {
 			};
 		}
 
+		this.height = this.resolution;
+		this.width = this.resolution;
 
-		this.containerElement = document.getElementById(this.container);
-
-		console.log(this);
-
+		this.setPixelSizeCSS();
 
 		this.setGameSize();
-		
 		window.addEventListener('resize', this.setGameSize);
+	}
+
+	setPixelSizeCSS() {
+
+		var resolution = this.height;
+		var pixelSize = 100 / resolution;
+
+		var css = ".square{width:" + pixelSize + "%;}";
+		css += ".row{height:" + pixelSize + "%;}";
+
+		
+		console.log(css);
+		document.getElementsByTagName('style')[0].innerHTML = css;
+		//document.getElementsByTagName('style')[0].innerHTML = ".square{width:calc(100%/50);}.row{height:2%;}";
 	}
 
 	setGameSize() {

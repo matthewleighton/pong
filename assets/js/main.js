@@ -1,7 +1,6 @@
 var config = {
 	container: 'container',
-	height: 100,
-	width: 100
+	resolution: 150 // Aspect ratio is square. Resolution is height or width.
 };
 
 var myGame = new Game(config);
