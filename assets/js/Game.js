@@ -18,6 +18,10 @@ class Game {
 
 		this.setGameSize();
 		window.addEventListener('resize', this.setGameSize);
+
+		this.grid = new Grid(this);
+
+		this.grid.spawnPaddle(1);
 	}
 
 	setPixelSizeCSS() {

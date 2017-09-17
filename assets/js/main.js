@@ -4,5 +4,3 @@ var config = {
 };
 
 var myGame = new Game(config);
-
-var myGrid = new Grid(myGame);

@@ -6,7 +6,7 @@ class Grid {
 		this.width = config.width;
 		this.container = config.container;
 		
-		this.grid = this.createGrid();
+		this.gridArray = this.createGrid();
 	}
 
 	/**
@@ -37,5 +37,20 @@ class Grid {
 		}
 
 		return gridArray;
+	}
+
+	spawnPaddle(playerNumber) {
+
+		var paddleSettings = {
+			playerNumber: playerNumber
+		}
+
+		console.log(this.config);
+		
+		var paddle = new Paddle(paddleSettings, this.config);
+	}
+
+	getSquare(x, y) {
+		return this.gridArray[y][x];
 	}
 }
