@@ -1,7 +1,7 @@
 var config = {
 	container: 'container',
-	height: 10,
-	width: 10
+	height: 100,
+	width: 100
 };
 
 var myGame = new Game(config);

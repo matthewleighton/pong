@@ -6,7 +6,9 @@ class Grid {
 		this.width = config.width;
 		this.container = config.container;
 
-		this.render(this.container);
+		//this.render(this.container);
+		
+		this.createGrid();
 	}
 
 	render() {
@@ -23,6 +25,7 @@ class Grid {
 			row.setAttribute('id', 'row-' + y);
 			row.setAttribute('class', 'row');
 
+			/*
 			for (var x = 0; x < this.gridArray[y].length; x++) {
 				var square = document.createElement('div');
 				square.setAttribute('id', 'square-' + x + '-' + y);
@@ -30,23 +33,32 @@ class Grid {
 
 				row.appendChild(square);
 			}
+			*/
 
 			container.appendChild(row);
 		};
 
 	}
 
-	createGridArray() {
+	createGrid(render = true) {
 		var gridArray = [];
 
 		for (var y = 0; y < this.height; y++) {
-			var row = [];
+			var rowArray = [];
 
-			for (var x = 0; x < this.width; x++) {
-				row.push(new Square(x, y, this.config));
+			if (render) {
+				var rowElement = document.createElement('div');
+				rowElement.setAttribute('id', 'row-' + y);
+				rowElement.setAttribute('class', 'row');
+				
+				document.getElementById(this.container).appendChild(rowElement);
 			}
 
-			gridArray.push(row);
+			for (var x = 0; x < this.width; x++) {
+				rowArray.push(new Square(x, y, this.config, render));
+			}
+
+			gridArray.push(rowArray);
 		}
 
 		return gridArray;
