@@ -10,11 +10,9 @@ body {
 	background-color: pink;
 	display: inline-block;
 	height: 100%;
-	/*width: calc(100% / 50);*/
 }
 
 .row {
-	/*height: 2%;*/
 	width: 100%;
 	font-size: 0;
 }
