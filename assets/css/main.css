@@ -7,6 +7,10 @@ body {
 	height: 500px;
 }*/
 
+#container {
+	margin: 0 auto;
+}
+
 .square {
 	background-color: pink;
 	display: inline-block;
@@ -15,7 +19,7 @@ body {
 
 	/*
 		Width should be equal to the same value as height.
-		
+
 
 	 */
 }

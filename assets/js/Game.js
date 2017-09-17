@@ -27,20 +27,18 @@ class Game {
 			d = document,
 			e = d.documentElement,
 			g = d.getElementsByTagName('body')[0],
-			width = w.innerWidth || e.clientWidth || g.clientWidth,
-			height = w.innerHeight || e.clientHeight || g.clientHeight;
-
-		console.log(self);
+			windowWidth = w.innerWidth || e.clientWidth || g.clientWidth,
+			windowHeight = w.innerHeight || e.clientHeight || g.clientHeight;
 
 		var container = document.getElementById(self.container);
 
-		container.style.height = height + 'px';
-		container.style.width = width + 'px';
-
-		console.log(container);
-
-		console.log('width: ' + width);
-		console.log('height: ' + height);
+		if (windowWidth > windowHeight) {
+			container.style.height = windowHeight + 'px';
+			container.style.width = windowHeight + 'px';
+		} else {
+			container.style.height = windowWidth + 'px';
+			container.style.width = windowWidth + 'px';
+		}
 	}
 
 }
