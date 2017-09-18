@@ -23,6 +23,8 @@ class Game {
 
 		this.grid.spawnPaddle(1);
 		this.grid.spawnPaddle(2);
+
+		this.spawnBall();
 	}
 
 	setPixelSizeCSS() {
@@ -52,6 +54,10 @@ class Game {
 			container.style.height = windowWidth + 'px';
 			container.style.width = windowWidth + 'px';
 		}
+	}
+
+	spawnBall() {
+		var ball = new Ball(this);
 	}
 
 }

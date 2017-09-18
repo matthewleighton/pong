@@ -43,20 +43,17 @@ class Grid {
 		return gridArray;
 	}
 
+	// I think this should maybe move to the Game object, rather than the Grid?
 	spawnPaddle(playerNumber) {
 
 		var paddleSettings = {
 			playerNumber: playerNumber
 		}
 
-		console.log(this.config);
-		
 		var paddle = new Paddle(paddleSettings, this.config);
 	}
 
 	getSquare(x, y) {
-		console.log('grid array');
-		console.log(this.gridArray);
 		return this.gridArray[y][x];
 	}
 }
