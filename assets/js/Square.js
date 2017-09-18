@@ -44,6 +44,8 @@ class Square {
 			ball: white,
 			empty: black,
 			goal: 'blue',
+			green: 'green',
+			orange: 'orange',
 			paddle: white,
 			test: 'red'
 		};

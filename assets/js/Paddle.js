@@ -12,13 +12,13 @@ class Paddle extends Physical {
 		this.originY = this.percentageToPixel(50);
 
 		this.drawSquares('paddle');
+		//this.moveObject(2, 0);
 
-		for (var i = 0; i < 10; i++) {
-			
-			window.setTimeout(() => {
-				this.moveObject(0, 0.5);
-			},3000);
-		}
+		
+		window.setTimeout(() => {
+			this.moveObject(0, 10);
+		},3000);
+		
 
 	}
 

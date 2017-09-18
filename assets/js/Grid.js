@@ -18,7 +18,7 @@ class Grid {
 	createGrid(render = true) {
 		var gridArray = [];
 
-		for (/*var y = 0; y < this.height; y++*/ var y = this.height-1; y >=0; y--) {
+		for (var y = 0; y < this.height; y++ /*var y = this.height-1; y >=0; y--*/) {
 			var rowArray = [];
 
 			if (render) {
@@ -30,10 +30,14 @@ class Grid {
 			}
 
 			for (var x = 0; x < this.width; x++) {
+				
+				//console.log(x + ' ' + y);
 				rowArray.push(new Square(x, y, this.config, render));
 			}
 
-			gridArray.push(rowArray);
+			// Using unshift here because we're working our way down from the top of the grid, so the first elements added actually have the highest y value.
+			// Adding to the start of the array, rather than the end, means that the first elements are those with the lowest numbers.
+			gridArray.unshift(rowArray);
 		}
 
 		return gridArray;
@@ -51,6 +55,8 @@ class Grid {
 	}
 
 	getSquare(x, y) {
+		console.log('grid array');
+		console.log(this.gridArray);
 		return this.gridArray[y][x];
 	}
 }
