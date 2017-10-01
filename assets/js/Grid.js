@@ -56,6 +56,11 @@ class Grid {
 	}
 
 	getSquare(x, y) {
+		
+		if (!this.gridArray[x] || ! this.gridArray[x][y]) {
+			return false;
+		}
+
 		return this.gridArray[y][x];
 	}
 
@@ -82,18 +87,28 @@ class Grid {
 
 		for (var x = topLeft['x']; x <= bottomRight['x']; x++) {
 			for (var y = topLeft['y']; y <= bottomRight['y']; y++) {
-				this.getSquare(x, y).setSquareType(squareType);
+				let square;
+				if (square = this.getSquare(x, y)) {
+					square.setSquareType(squareType);
+				}
+				//this.getSquare(x, y).setSquareType(squareType);
 			}
 		}
 
-		console.log(object);
+		//console.log(object);
 
 		// Test line - remove later. Marking the origin as red.
 		//this.getSquare(object.originX, object.originY).setSquareType('test');
 	}
 
 	moveObject(object, movement) {
-		console.log(object);
+		//console.log(object);
+		//
+		
+		if (!this.isValidMovement(object, movement)) {
+			console.log('invalid movement');
+			return false;
+		}
 
 		this.drawSquares(object, 'empty');
 		this.getSquare(object.originX, object.originY).setSquareType('test');
@@ -101,9 +116,48 @@ class Grid {
 		object.originX += object.percentageToPixel(movement.x);
 		object.originY += object.percentageToPixel(movement.y);
 
+		//console.log(object.originY);
+		//console.log(object.resolution);
+		//console.log(object)
+
 		this.drawSquares(object);
 
+		return true;
+
 		//console.log('moveObject');
+	}
+
+	isValidMovement(object, movement) {
+		
+		console.log(object);
+
+		let yTopEdge = object.originY + object.yFromOrigin;
+		let yTopAfterMove = yTopEdge + object.percentageToPixel(movement.y);
+		if (yTopAfterMove > object.resolution || yTopAfterMove < 0) {
+			return false;
+		}
+
+		let yBottomEdge = object.originY - object.yFromOrigin;
+		let yBottomAfterMove = yBottomEdge + object.percentageToPixel(movement.y);
+		if (yBottomAfterMove > object.resolution || yBottomAfterMove < 0) {
+			return false;
+		}
+
+
+		let xRightEdge = object.originX + object.xFromOrigin;
+		let xRightAfterMove = xRightEdge + object.percentageToPixel(movement.x);
+		if (xRightAfterMove > object.resolution || xRightAfterMove < 0) {
+			return false;
+		}
+
+		let xLeftEdge = object.originX - object.xFromOrigin;
+		let xLeftAfterMove = xLeftEdge + object.percentageToPixel(movement.x);
+		if (xLeftAfterMove > object.resolution || xLeftAfterMove < 0) {
+			console.log('failed bottom');
+			return false;
+		}
+
+		return true;
 	}
 
 	/*

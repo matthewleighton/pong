@@ -83,11 +83,9 @@ class Game {
 		if (active) {
 			document.addEventListener('keydown', (e) => {
 				this.keysPressed[e.which] = true;
-				console.log(this.keysPressed);
 			});
 			document.addEventListener('keyup', (e) => {
 				this.keysPressed[e.which] = false;
-				console.log(this.keysPressed);
 			});
 		} else {
 
@@ -95,61 +93,35 @@ class Game {
 	}
 
 	moveViaInputCommand() {
-		console.log(this.keysPressed);
+		//console.log(this.keysPressed);
 
 		// W key
 		if (this.keysPressed[87]) {
-			this.grid.moveObject(this.objects['paddle-1'], {x: 0, y: 1.2});
+			this.grid.moveObject(this.objects['paddle-1'], {x: 0, y: 0.5});
 		};
 
 		// S key
 		if (this.keysPressed[83]) {
-			this.grid.moveObject(this.objects['paddle-1'], {x: 0, y: -1});	
+			this.grid.moveObject(this.objects['paddle-1'], {x: 0, y: -0.5});	
 		}
 
 		// Up arrow
 		if (this.keysPressed[38]) {
-			this.grid.moveObject(this.objects['paddle-2'], {x: 0, y: 1.2});	
+			this.grid.moveObject(this.objects['paddle-2'], {x: 0, y: 0.5});	
 		}
 
 		// Down arrow
 		if (this.keysPressed[40]) {
-			this.grid.moveObject(this.objects['paddle-2'], {x: 0, y: -1});	
+			this.grid.moveObject(this.objects['paddle-2'], {x: 0, y: -0.5});
 		}
 	}
 
 	activeGameLoop() {
-		let loop = setInterval(() => {this.gameLoop(), 200});
+		let loop = setInterval(() => {this.gameLoop(), 150});
 	}
 
 	gameLoop() {
-		
-		//console.log('running game loop');
-
 		this.moveViaInputCommand();
-		
-
-		//let game = this;
-
-		/*
-		let loop = setInterval(function(game) {
-
-			//game.moveViaInputCommand();
-
-			console.log('running gameLoop');
-
-			//console.log(this.keysPressed);
-			//
-			
-			//console.log(game);
-
-
-
-		}(this), 200);
-		*/
-
-
-		//setTimeout(this.gameLoop(), 200);
 	}
 
 }
