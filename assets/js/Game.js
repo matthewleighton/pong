@@ -116,12 +116,18 @@ class Game {
 		}
 	}
 
+	moveBall() {
+		let ball = this.objects['ball'];
+		this.grid.moveObject(ball, ball.momentum);
+	}
+
 	activeGameLoop() {
 		let loop = setInterval(() => {this.gameLoop(), 150});
 	}
 
 	gameLoop() {
 		this.moveViaInputCommand();
+		this.moveBall();
 	}
 
 }

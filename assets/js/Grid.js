@@ -106,8 +106,24 @@ class Grid {
 		//
 		
 		if (!this.isValidMovement(object, movement)) {
-			console.log('invalid movement');
-			return false;
+			
+			if (object.objectType == 'ball') {
+				console.log('bounce');
+
+				let oldMomentum = object.momentum;
+
+				let xNewMomentum = 0 - oldMomentum.x;
+				let yNewMomentum = 0 - oldMomentum.y;
+
+				object.momentum = {
+					x: xNewMomentum,
+					y: yNewMomentum
+				};
+
+				movement = object.momentum;
+			} else {
+				return false;
+			}
 		}
 
 		this.drawSquares(object, 'empty');
