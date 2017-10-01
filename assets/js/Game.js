@@ -87,6 +87,18 @@ class Game {
 			document.addEventListener('keyup', (e) => {
 				this.keysPressed[e.which] = false;
 			});
+
+			// Press esc to pause game loop.
+			document.addEventListener('keyup', (e) => {
+				if(e.which == 27) {
+					if (this.loopIntervalId) {
+						this.stopGameLoop();
+					} else {
+						console.log('re-activating game loop');
+						this.activeGameLoop();
+					}
+				}
+			});
 		} else {
 
 		}
@@ -122,7 +134,12 @@ class Game {
 	}
 
 	activeGameLoop() {
-		let loop = setInterval(() => {this.gameLoop(), 150});
+		this.loopIntervalId = setInterval(() => {this.gameLoop(), 400});
+	}
+
+	stopGameLoop() {
+		clearInterval(this.loopIntervalId);
+		this.loopIntervalId = false;
 	}
 
 	gameLoop() {

@@ -6,6 +6,7 @@ class Grid {
 		this.height = game.resolution;
 		this.width = game.resolution;
 		this.container = game.container;
+		this.objects = game.objects;
 		
 		this.gridArray = this.createGrid();
 
@@ -132,20 +133,14 @@ class Grid {
 		object.originX += object.percentageToPixel(movement.x);
 		object.originY += object.percentageToPixel(movement.y);
 
-		//console.log(object.originY);
-		//console.log(object.resolution);
-		//console.log(object)
-
 		this.drawSquares(object);
 
 		return true;
-
-		//console.log('moveObject');
 	}
 
 	isValidMovement(object, movement) {
 		
-		console.log(object);
+		//console.log(object);
 
 		let yTopEdge = object.originY + object.yFromOrigin;
 		let yTopAfterMove = yTopEdge + object.percentageToPixel(movement.y);
@@ -169,31 +164,115 @@ class Grid {
 		let xLeftEdge = object.originX - object.xFromOrigin;
 		let xLeftAfterMove = xLeftEdge + object.percentageToPixel(movement.x);
 		if (xLeftAfterMove > object.resolution || xLeftAfterMove < 0) {
-			console.log('failed bottom');
+			//console.log('failed bottom');
 			return false;
+		}
+
+		if (object.objectType == 'ball') {
+			let ballEdges = {
+				top: yTopAfterMove,
+				right: xRightAfterMove,
+				bottom: yBottomAfterMove,
+				left: xLeftAfterMove
+			};
+
+			return !this.isPaddleCollision(ballEdges, movement);
+
+			//return !this.isPaddleCollision(object, movement);
 		}
 
 		return true;
 	}
 
-	/*
-	moveObject(xChange, yChange) {
-		this.drawSquares('empty');
-		this.grid.getSquare(this.originX, this.originY).setSquareType('test');
+	isPaddleCollision(ballEdges, movement) {
+		let cornerOne,
+			cornerTwo;
 
-		//console.log(this.percentageToPixel(xChange));
+		// Only need to check the ball edges in the direction the ball is moving.
+		if (movement.x > 0) {
+			// Check right edge.
+			//edges = this.getEdgeCoordinates(ballEdges, 'right');
+			cornerOne = {
+				x: ballEdges.right,
+				y: ballEdges.top
+			};
+			cornerTwo = {
+				x: ballEdges.right,
+				y: ballEdges.bottom
+			}
+		} else if (movement.x < 0) {
+			// Check left edge.
+			//edges = this.getEdgeCoordinates(ballEdges, 'left');
+			cornerOne = {
+				x: ballEdges.left,
+				y: ballEdges.top
+			};
+			cornerTwo = {
+				x: ballEdges.left,
+				y: ballEdges.bottom
+			}
+		}
 
-		//console.log('before move');
-		//console.log(this.originY);
+		if (movement.y > 0) {
+			// Check top edge.
+			//edges = this.getEdgeCoordinates(ballEdges, 'top');
+			cornerOne = {
+				x: ballEdges.left,
+				y: ballEdges.top
+			};
+			cornerTwo = {
+				x: ballEdges.right,
+				y: ballEdges.top
+			}
+		} else if (movement.y < 0) {
+			// Check bottom edge.
+			//edges = this.getEdgeCoordinates(ballEdges, 'bottom');
+			cornerOne = {
+				x: ballEdges.left,
+				y: ballEdges.bottom
+			};
+			cornerTwo = {
+				x: ballEdges.right,
+				y: ballEdges.bottom
+			}
+		}
 
-		this.originX += this.percentageToPixel(xChange);
-		this.originY += this.percentageToPixel(yChange);
-		this.drawSquares(this.objectType);
+		for (var x = cornerOne.x; x <= cornerTwo.x; x++) {
+			for (var y = cornerOne.y; y <= cornerTwo.y; y++) {
+				let square = this.getSquare(x, y);
 
-		//console.log('after move');
-		//console.log(this.originY);
+				if (square.squareType == 'paddle') {
+					return true;
+				}
+			}
+		}
+
 	}
-	*/
+
+	getEdgeCoordinates(ballEdges, whichEdge) {
+		let coordinates = [];
+		let cornerOne,
+			cornerTwo;
+
+		if (whichEdge == 'left') {
+			
+		} else if (whichEdge == 'top') {
+			
+		} else if (whichEdge == 'right') {
+			
+		} else if (whichEdge == 'bottom') {
+			
+		}
+
+
+		for (var x = cornerOne.x; x <= cornerTwo.x; x++) {
+			for (var y = cornerOne.y; y <= cornerTwo.y; y++) {
+				let square = this.getSquare(x, y);
+			}
+		}
+
+
+	}
 
 
 }
