@@ -1,12 +1,15 @@
 class Grid {
-	constructor(config) {
-		this.config = config;
+	constructor(game) {
+		console.log(game);
+		this.game = game;
 
-		this.height = config.height;
-		this.width = config.width;
-		this.container = config.container;
+		this.height = game.resolution;
+		this.width = game.resolution;
+		this.container = game.container;
 		
 		this.gridArray = this.createGrid();
+
+		console.log(this.gridArray);
 	}
 
 	/**
@@ -32,7 +35,7 @@ class Grid {
 			for (var x = 0; x < this.width; x++) {
 				
 				//console.log(x + ' ' + y);
-				rowArray.push(new Square(x, y, this.config, render));
+				rowArray.push(new Square(x, y, this.game, render));
 			}
 
 			// Using unshift here because we're working our way down from the top of the grid, so the first elements added actually have the highest y value.
@@ -45,15 +48,82 @@ class Grid {
 
 	// I think this should maybe move to the Game object, rather than the Grid?
 	spawnPaddle(playerNumber) {
-
 		var paddleSettings = {
 			playerNumber: playerNumber
 		}
 
-		var paddle = new Paddle(paddleSettings, this.config);
+		var paddle = new Paddle(paddleSettings, this.game);
 	}
 
 	getSquare(x, y) {
 		return this.gridArray[y][x];
 	}
+
+
+
+	// This draws an object by coloring every square between the object's top left and bottom right.
+	drawSquares(object, squareType = false) {
+		
+		squareType = squareType ? squareType : object.objectType;
+
+		var topLeft = {
+			x: object.originX - object.xFromOrigin,
+			y: object.originY - object.yFromOrigin
+		};
+
+		//this.getSquare(topLeft['x'], topLeft['y']).setSquareType('orange');
+
+		var bottomRight = {
+			x: object.originX + object.xFromOrigin,
+			y: object.originY + object.yFromOrigin
+		};
+
+		//this.getSquare(bottomRight['x'], bottomRight['y']).setSquareType('green');
+
+		for (var x = topLeft['x']; x <= bottomRight['x']; x++) {
+			for (var y = topLeft['y']; y <= bottomRight['y']; y++) {
+				this.getSquare(x, y).setSquareType(squareType);
+			}
+		}
+
+		console.log(object);
+
+		// Test line - remove later. Marking the origin as red.
+		//this.getSquare(object.originX, object.originY).setSquareType('test');
+	}
+
+	moveObject(object, movement) {
+		console.log(object);
+
+		this.drawSquares(object, 'empty');
+		this.getSquare(object.originX, object.originY).setSquareType('test');
+
+		object.originX += object.percentageToPixel(movement.x);
+		object.originY += object.percentageToPixel(movement.y);
+
+		this.drawSquares(object);
+
+		//console.log('moveObject');
+	}
+
+	/*
+	moveObject(xChange, yChange) {
+		this.drawSquares('empty');
+		this.grid.getSquare(this.originX, this.originY).setSquareType('test');
+
+		//console.log(this.percentageToPixel(xChange));
+
+		//console.log('before move');
+		//console.log(this.originY);
+
+		this.originX += this.percentageToPixel(xChange);
+		this.originY += this.percentageToPixel(yChange);
+		this.drawSquares(this.objectType);
+
+		//console.log('after move');
+		//console.log(this.originY);
+	}
+	*/
+
+
 }

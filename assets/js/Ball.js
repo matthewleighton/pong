@@ -1,7 +1,7 @@
 class Ball extends Physical {
 	
-	constructor(config) {
-		super(config);
+	constructor(game) {
+		super({}, game);
 
 		self = this;
 
@@ -15,16 +15,18 @@ class Ball extends Physical {
 		this.originX = this.percentageToPixel(50);
 		this.originY = this.percentageToPixel(50);
 
-		this.drawSquares('ball');
+		//this.drawSquares('ball');
 
 		
 		// Movement test
+		/*
 		(function myLoop(i) {
 			setTimeout(function() {
 				self.moveObject(-0.5, -0.5);
 				if (--i) myLoop(i);
 			}, 10);
 		})(80);
+		*/
 
 	}
 

@@ -1,10 +1,11 @@
 class Physical {
 
-	constructor(physicalSettings, config) {
+	constructor(physicalSettings, game) {
 		
-		console.log('Physical');
-
-		console.log(physicalSettings);
+		//console.log('Physical');
+		//console.log(physicalSettings);
+		
+		this.game = game;
 
 		for (var key in physicalSettings) {
 			if (physicalSettings.hasOwnProperty(key)) {
@@ -12,16 +13,18 @@ class Physical {
 			};
 		}
 
-		console.log(this.playerNumber);
-
 		// Dynamically assign object variables based on items in config object.
-		for (var key in config) {
-			if (config.hasOwnProperty(key)) {
-				this[key] = config[key];
+		
+
+		for (var key in game) {
+			if (game.hasOwnProperty(key)) {
+				this[key] = game[key];
 			};
 		}
 
-		console.log(config);
+		console.log(this);
+		
+		//console.log(config);
 
 		//heightFromOrigin
 		//widthFromOrigin
@@ -36,9 +39,6 @@ class Physical {
 
 		var pixel = Math.floor((this.resolution / 100) * percentage);
 		if (pixel == 0) return 1;
-
-		console.log(percentage);
-		console.log((this.resolution / 100) * percentage);
 
 		return pixel;
 	}
@@ -72,7 +72,7 @@ class Physical {
 		}
 
 		// Test line - remove later. Marking the origin as red.
-		this.grid.getSquare(this.originX, this.originY).setSquareType('test');
+		this.game.grid.getSquare(this.originX, this.originY).setSquareType('test');
 	}
 
 	moveObject(xChange, yChange) {
@@ -90,6 +90,11 @@ class Physical {
 
 		//console.log('after move');
 		//console.log(this.originY);
+	}
+
+	setId(id) {
+		this.id = id;
+		this.game.objects[id] = this;
 	}
 
 }
