@@ -165,6 +165,8 @@ class Grid {
 		if (!valid) {
 			console.log('invalid ball move');
 			ball.momentum = ball.momentumAfterCollision(collisionSide);
+			console.log(collisionSide);
+			//this.game.stopGameLoop();
 			return false;
 		}
 
@@ -214,6 +216,9 @@ class Grid {
 
 				if (square.squareType == 'paddle') {
 					ball.momentum = ball.momentumAfterCollision(collisionSide);
+					console.log('paddle colission');
+					console.log(collisionSide);
+					//this.game.stopGameLoop();
 					return true;
 				}
 			}
@@ -221,7 +226,8 @@ class Grid {
 
 		if (ball.momentum.y > 0) {
 			// Check top edge.
-			collisionSide = 'top';
+			//collisionSide = 'top';
+			collisionSide = 'right';
 			cornerOne = {
 				x: ballEdges.left,
 				y: ballEdges.top
@@ -232,7 +238,8 @@ class Grid {
 			};
 		} else if (ball.momentum.y < 0) {
 			// Check bottom edge.
-			collisionSide = 'bottom';
+			//collisionSide = 'bottom';
+			collisionSide = 'left';
 			cornerOne = {
 				x: ballEdges.left,
 				y: ballEdges.bottom
@@ -248,7 +255,10 @@ class Grid {
 				let square = this.getSquare(x, y);
 
 				if (square.squareType == 'paddle') {
+					console.log(collisionSide);
 					ball.momentum = ball.momentumAfterCollision(collisionSide);
+					console.log('paddle colission');
+					//this.game.stopGameLoop();
 					return true;
 				}
 			}

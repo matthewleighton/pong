@@ -17,12 +17,10 @@ class Ball extends Physical {
 		this.momentum = {x: this.percentageToPixel(-1), y: this.percentageToPixel(0.5)};
 	}
 
-	momentumAfterCollision(collisionSide) {
-		
+	momentumAfterCollision(collisionSide) {		
 		let oldMomentum = this.momentum;
 		let xNewMomentum,
 			yNewMomentum;
-
 
 		if (collisionSide == 'left' || collisionSide == 'right') {
 			// Only reverse x coordinate.
