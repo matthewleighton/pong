@@ -65,8 +65,6 @@ class Grid {
 		return this.gridArray[y][x];
 	}
 
-
-
 	// This draws an object by coloring every square between the object's top left and bottom right.
 	drawSquares(object, squareType = false) {
 		
@@ -103,10 +101,6 @@ class Grid {
 	}
 
 	moveObject(object, movement) {
-		//console.log(object);
-		
-
-
 		if (!this.isValidMovement(object, movement)) {
 			if (object.objectType == 'ball') {
 				movement = object.momentum;
@@ -116,7 +110,6 @@ class Grid {
 		}
 
 		this.drawSquares(object, 'empty');
-		
 
 		// Drawing test path
 		let originalSquare
@@ -135,8 +128,6 @@ class Grid {
 	isValidMovement(object, movement) {
 		let valid = true;
 		let collisionSide;
-
-		console.log(object);
 
 		let topEdge = object.originY + object.yFromOrigin;
 		let topAfterMove = topEdge + object.percentageToPixel(movement.y);

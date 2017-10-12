@@ -37,8 +37,16 @@ class Physical {
 	percentageToPixel(percentage) {
 		if (percentage == 0) return 0;
 
+		// This deals with an issue causing negative numbers to return further from 0 than positive numbers.
+		let negative = percentage < 0 ? true : false;
+		percentage = Math.abs(percentage);
+
 		var pixel = Math.floor((this.resolution / 100) * percentage);
 		if (pixel == 0) return 1;
+
+		if (negative) {
+			pixel = 0 - pixel;
+		}
 
 		return pixel;
 	}

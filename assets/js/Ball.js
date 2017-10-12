@@ -14,7 +14,10 @@ class Ball extends Physical {
 		this.originX = this.percentageToPixel(50);
 		this.originY = this.percentageToPixel(50);
 
-		this.momentum = {x: this.percentageToPixel(-1), y: this.percentageToPixel(0.5)};
+		this.momentum = {
+			x: this.percentageToPixel(-1),
+			y: this.percentageToPixel(0.5)
+		};
 	}
 
 	momentumAfterCollision(collisionSide) {		

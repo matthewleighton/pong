@@ -106,25 +106,27 @@ class Game {
 
 	moveViaInputCommand() {
 		//console.log(this.keysPressed);
+		
+		let paddleSpeed = 1.5;
 
 		// W key
 		if (this.keysPressed[87]) {
-			this.grid.moveObject(this.objects['paddle-1'], {x: 0, y: 0.5});
+			this.grid.moveObject(this.objects['paddle-1'], {x: 0, y: paddleSpeed});
 		};
 
 		// S key
 		if (this.keysPressed[83]) {
-			this.grid.moveObject(this.objects['paddle-1'], {x: 0, y: -0.5});	
+			this.grid.moveObject(this.objects['paddle-1'], {x: 0, y: -paddleSpeed});
 		}
 
 		// Up arrow
 		if (this.keysPressed[38]) {
-			this.grid.moveObject(this.objects['paddle-2'], {x: 0, y: 0.5});	
+			this.grid.moveObject(this.objects['paddle-2'], {x: 0, y: paddleSpeed});
 		}
 
 		// Down arrow
 		if (this.keysPressed[40]) {
-			this.grid.moveObject(this.objects['paddle-2'], {x: 0, y: -0.5});
+			this.grid.moveObject(this.objects['paddle-2'], {x: 0, y: -paddleSpeed});
 		}
 	}
 
