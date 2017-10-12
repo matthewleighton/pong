@@ -104,8 +104,9 @@ class Grid {
 
 	moveObject(object, movement) {
 		//console.log(object);
-		//
 		
+
+
 		if (!this.isValidMovement(object, movement)) {
 			if (object.objectType == 'ball') {
 				movement = object.momentum;
@@ -115,7 +116,13 @@ class Grid {
 		}
 
 		this.drawSquares(object, 'empty');
-		this.getSquare(object.originX, object.originY).setSquareType('test');
+		
+
+		// Drawing test path
+		let originalSquare
+		if (originalSquare = this.getSquare(object.originX, object.originY)) {
+			originalSquare.setSquareType('test');
+		}
 
 		object.originX += object.percentageToPixel(movement.x);
 		object.originY += object.percentageToPixel(movement.y);
@@ -129,31 +136,33 @@ class Grid {
 		let valid = true;
 		let collisionSide;
 
-		let yTopEdge = object.originY + object.yFromOrigin;
-		let yTopAfterMove = yTopEdge + object.percentageToPixel(movement.y);
-		if (yTopAfterMove > object.resolution || yTopAfterMove < 0) {
+		console.log(object);
+
+		let topEdge = object.originY + object.yFromOrigin;
+		let topAfterMove = topEdge + object.percentageToPixel(movement.y);
+		if (topAfterMove > object.resolution) {
 			valid = false;
 			collisionSide = 'top';
 		}
 
-		let yBottomEdge = object.originY - object.yFromOrigin;
-		let yBottomAfterMove = yBottomEdge + object.percentageToPixel(movement.y);
-		if (yBottomAfterMove > object.resolution || yBottomAfterMove < 0) {
+		let bottomEdge = object.originY - object.yFromOrigin;
+		let bottomAfterMove = bottomEdge + object.percentageToPixel(movement.y);
+		if (bottomAfterMove < 0) {
 			valid = false;
 			collisionSide = 'bottom';
 		}
 
 
-		let xRightEdge = object.originX + object.xFromOrigin;
-		let xRightAfterMove = xRightEdge + object.percentageToPixel(movement.x);
-		if (xRightAfterMove > object.resolution || xRightAfterMove < 0) {
+		let rightEdge = object.originX + object.xFromOrigin;
+		let rightAfterMove = rightEdge + object.percentageToPixel(movement.x);
+		if (rightAfterMove > object.resolution) {
 			valid = false;
 			collisionSide = 'right';
 		}
 
-		let xLeftEdge = object.originX - object.xFromOrigin;
-		let xLeftAfterMove = xLeftEdge + object.percentageToPixel(movement.x);
-		if (xLeftAfterMove > object.resolution || xLeftAfterMove < 0) {
+		let leftEdge = object.originX - object.xFromOrigin;
+		let leftAfterMove = leftEdge + object.percentageToPixel(movement.x);
+		if (leftAfterMove < 0) {
 			valid = false;
 			collisionSide = 'left';
 		}
@@ -171,11 +180,15 @@ class Grid {
 		}
 
 		let ballEdges = {
-			top: yTopAfterMove,
-			right: xRightAfterMove,
-			bottom: yBottomAfterMove,
-			left: xLeftAfterMove
+			top: topAfterMove,
+			right: rightAfterMove,
+			bottom: bottomAfterMove,
+			left: leftAfterMove
 		};
+
+
+		// Check that the target square exists. For the case of coli
+
 
 		return !this.isPaddleCollision(ball, ballEdges);
 	}
