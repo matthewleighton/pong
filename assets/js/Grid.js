@@ -121,7 +121,7 @@ class Grid {
 		// Drawing test path
 		let originalSquare
 		if (originalSquare = this.getSquare(object.originX, object.originY)) {
-			originalSquare.setSquareType('test');
+			//originalSquare.setSquareType('test');
 		}
 
 		object.originX += object.percentageToPixel(movement.x);

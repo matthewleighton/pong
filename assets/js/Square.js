@@ -6,18 +6,15 @@ class Square {
 
 		this.renderSquare(render);
 
+		if (x == config.resolution/2 && y % 2) {
+			this.setBaseColor('white');
+		}
+
 		if (this.isGoalSquare()) {
 			this.setSquareType('goal');
 		} else {
 			this.setSquareType('empty');
 		}
-
-		/*
-		this.isGoal = this.isGoalSquare();
-		if (this.isGoal) {
-			this.setSquareColor('goal');
-		};
-		*/
 	};
 
 	/**
@@ -30,6 +27,10 @@ class Square {
 		this.setSquareColor();
 	}
 
+	setBaseColor(baseColor) {
+		this.baseColor = baseColor;
+	}
+
 	/**
 	 * Returns a string of the hex code for the square squareType we enter.
 	 * Defaults to black if no squareType is given.
@@ -40,6 +41,10 @@ class Square {
 		var black = '#000000';
 		var white = '#ffffff';
 
+		if (squareType == 'empty') {
+			squareType = this.baseColor;
+		}
+
 		var colorCodes = {
 			ball: white,
 			empty: black,
@@ -47,7 +52,8 @@ class Square {
 			green: 'green',
 			orange: 'orange',
 			paddle: white,
-			test: 'red'
+			test: 'red',
+			white: white
 		};
 
 		if (squareType in colorCodes) {
