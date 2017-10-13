@@ -105,4 +105,25 @@ class Physical {
 		this.game.objects[id] = this;
 	}
 
+	getEdgePointsAfterMove(movement) {
+		let topEdge = this.originY + this.yFromOrigin;
+		let topAfterMove = topEdge + this.percentageToPixel(movement.y);
+
+		let bottomEdge = this.originY - this.yFromOrigin;
+		let bottomAfterMove = bottomEdge + this.percentageToPixel(movement.y);
+
+		let leftEdge = this.originX - this.xFromOrigin;
+		let leftAfterMove = leftEdge + this.percentageToPixel(movement.x);
+
+		let rightEdge = this.originX + this.xFromOrigin;
+		let rightAfterMove = rightEdge + this.percentageToPixel(movement.x);
+
+		return {
+			top: topAfterMove,
+			bottom: bottomAfterMove,
+			left: leftAfterMove,
+			right: rightAfterMove
+		};
+	}
+
 }

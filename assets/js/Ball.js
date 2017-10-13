@@ -20,20 +20,22 @@ class Ball extends Physical {
 		};
 	}
 
-	momentumAfterCollision(collisionSide) {		
+	updateMovementAfterCollision() {
 		let oldMomentum = this.momentum;
 		let xNewMomentum,
 			yNewMomentum;
 
-		if (collisionSide == 'left' || collisionSide == 'right') {
+		if (!this.collisionSide) return false;
+
+		if (this.collisionSide == 'left' || this.collisionSide == 'right') {
 			// Only reverse x coordinate.
-			return {
+			this.momentum = {
 				x: 0 - this.momentum.x,
 				y: this.momentum.y
 			}
 		} else {
 			// Only reverse y coordinate.
-			return {
+			this.momentum = {
 				x: this.momentum.x,
 				y: 0 - this.momentum.y
 			}

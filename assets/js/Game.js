@@ -24,6 +24,8 @@ class Game {
 		this.toggleInputListeners(true);
 
 		this.activeGameLoop();
+
+		//this.scoreCard = new ScoreCard(this);
 	}
 
 	setPixelSizeCSS() {

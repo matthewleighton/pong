@@ -57,7 +57,6 @@ class Grid {
 	}
 
 	getSquare(x, y) {
-		
 		if (!this.gridArray[x] || ! this.gridArray[x][y]) {
 			return false;
 		}
@@ -94,8 +93,6 @@ class Grid {
 			}
 		}
 
-		//console.log(object);
-
 		// Test line - remove later. Marking the origin as red.
 		//this.getSquare(object.originX, object.originY).setSquareType('test');
 	}
@@ -103,6 +100,7 @@ class Grid {
 	moveObject(object, movement) {
 		if (!this.isValidMovement(object, movement)) {
 			if (object.objectType == 'ball') {
+				object.updateMovementAfterCollision();
 				movement = object.momentum;
 			} else {
 				return false;
@@ -129,143 +127,112 @@ class Grid {
 		let valid = true;
 		let collisionSide;
 
-		let topEdge = object.originY + object.yFromOrigin;
-		let topAfterMove = topEdge + object.percentageToPixel(movement.y);
-		if (topAfterMove > object.resolution) {
+		let objectEdgesPoints = object.getEdgePointsAfterMove(movement);
+
+		if (objectEdgesPoints.top > object.resolution) {
 			valid = false;
-			collisionSide = 'top';
-		}
-
-		let bottomEdge = object.originY - object.yFromOrigin;
-		let bottomAfterMove = bottomEdge + object.percentageToPixel(movement.y);
-		if (bottomAfterMove < 0) {
+			object.collisionSide = 'top';
+		} else if (objectEdgesPoints.bottom < 0) {
 			valid = false;
-			collisionSide = 'bottom';
-		}
-
-
-		let rightEdge = object.originX + object.xFromOrigin;
-		let rightAfterMove = rightEdge + object.percentageToPixel(movement.x);
-		if (rightAfterMove > object.resolution) {
+			object.collisionSide = 'bottom';
+		} else if (objectEdgesPoints.right > object.resolution) {
 			valid = false;
-			collisionSide = 'right';
-		}
-
-		let leftEdge = object.originX - object.xFromOrigin;
-		let leftAfterMove = leftEdge + object.percentageToPixel(movement.x);
-		if (leftAfterMove < 0) {
+			object.collisionSide = 'right';
+		} else if (objectEdgesPoints.left < 0) {
 			valid = false;
-			collisionSide = 'left';
+			object.collisionSide = 'left';
 		}
 
-		if (object.objectType !== 'ball') return valid;
-
-		// Extra logic for ball collisions
-		let ball = object;
-		if (!valid) {
-			console.log('invalid ball move');
-			ball.momentum = ball.momentumAfterCollision(collisionSide);
-			console.log(collisionSide);
-			//this.game.stopGameLoop();
-			return false;
+		if (object.objectType == 'ball' && valid == true) {
+			// Ball needs to do an extra check for collision with paddles.
+			return !this.isPaddleCollision(object, objectEdgesPoints);
+		} else {
+			return valid;
 		}
-
-		let ballEdges = {
-			top: topAfterMove,
-			right: rightAfterMove,
-			bottom: bottomAfterMove,
-			left: leftAfterMove
-		};
-
-
-		// Check that the target square exists. For the case of coli
-
-
-		return !this.isPaddleCollision(ball, ballEdges);
 	}
 
 	isPaddleCollision(ball, ballEdges) {
 		let cornerOne,
 			cornerTwo,
-			collisionSide;
+			collisionSide,
+			collisionCorners,
+			cornerSquare;
 
 		// Only need to check the ball edges in the direction the ball is moving.
 		if (ball.momentum.x > 0) {
-			// Check right edge.
 			collisionSide = 'right';
-			cornerOne = {
-				x: ballEdges.right,
-				y: ballEdges.top
-			};
-			cornerTwo = {
-				x: ballEdges.right,
-				y: ballEdges.bottom
-			};
+			collisionCorners = [
+				{
+					x: ballEdges.right,
+					y: ballEdges.top
+				},
+				{
+					x: ballEdges.right,
+					y: ballEdges.bottom
+				}
+			];
 		} else if (ball.momentum.x < 0) {
-			// Check left edge.
 			collisionSide = 'left';
-			cornerOne = {
-				x: ballEdges.left,
-				y: ballEdges.top
-			};
-			cornerTwo = {
-				x: ballEdges.left,
-				y: ballEdges.bottom
-			};
+			collisionCorners = [
+				{
+					x: ballEdges.left,
+					y: ballEdges.top
+				},
+				{
+					x: ballEdges.left,
+					y: ballEdges.bottom
+				}
+			];
 		}
 
-		for (var x = cornerOne.x; x <= cornerTwo.x; x++) {
-			for (var y = cornerOne.y; y <= cornerTwo.y; y++) {
-				let square = this.getSquare(x, y);
-
-				if (square.squareType == 'paddle') {
-					ball.momentum = ball.momentumAfterCollision(collisionSide);
-					console.log('paddle colission');
-					console.log(collisionSide);
-					//this.game.stopGameLoop();
-					return true;
-				}
-			}
+		if (this.testSquaresForType(collisionCorners, 'paddle')) {
+			ball.collisionSide = collisionSide;
+			return true;
 		}
 
 		if (ball.momentum.y > 0) {
-			// Check top edge.
-			//collisionSide = 'top';
-			collisionSide = 'right';
-			cornerOne = {
-				x: ballEdges.left,
-				y: ballEdges.top
-			};
-			cornerTwo = {
-				x: ballEdges.right,
-				y: ballEdges.top
-			};
+			collisionSide = 'top';
+			collisionCorners = [
+				{
+					x: ballEdges.left,
+					y: ballEdges.top
+				},
+				{
+					x: ballEdges.right,
+					y: ballEdges.top
+				}
+			];
 		} else if (ball.momentum.y < 0) {
-			// Check bottom edge.
-			//collisionSide = 'bottom';
-			collisionSide = 'left';
-			cornerOne = {
-				x: ballEdges.left,
-				y: ballEdges.bottom
-			};
-			cornerTwo = {
-				x: ballEdges.right,
-				y: ballEdges.bottom
-			};
+			collisionSide = 'bottom';
+			collisionCorners = [
+				{
+					x: ballEdges.left,
+					y: ballEdges.top
+				},
+				{
+					x: ballEdges.right,
+					y: ballEdges.top
+				}
+			];
 		}
 
-		for (var x = cornerOne.x; x <= cornerTwo.x; x++) {
-			for (var y = cornerOne.y; y <= cornerTwo.y; y++) {
-				let square = this.getSquare(x, y);
+		if (this.testSquaresForType(collisionCorners, 'paddle')) {
+			ball.collisionSide = collisionSide;
+			return true;
+		}
 
-				if (square.squareType == 'paddle') {
-					console.log(collisionSide);
-					ball.momentum = ball.momentumAfterCollision(collisionSide);
-					console.log('paddle colission');
-					//this.game.stopGameLoop();
-					return true;
-				}
-			}
+		return false;
+	}
+
+	// Returns true if any of the given coordinates contain a square of the given type.
+	testSquaresForType(coords, squareType) {
+		for (var i = 0; i < coords.length; i++) {
+			var square = this.getSquare(
+				coords[i].x,
+				coords[i].y,
+			);
+
+			if (square.squareType == 'paddle') return true;
 		}
 
 		return false;
