@@ -24,8 +24,6 @@ class Game {
 		this.toggleInputListeners(true);
 
 		this.activeGameLoop();
-
-		//this.scoreCard = new ScoreCard(this);
 	}
 
 	setPixelSizeCSS() {
@@ -79,6 +77,16 @@ class Game {
 		this.objects[paddle.id] = paddle;
 
 		this.grid.drawSquares(paddle);
+	}
+
+	getObject(objectId) {
+		let object = this.objects[objectId];
+		
+		if (object) {
+			return object;
+		}
+
+		return false;
 	}
 
 	toggleInputListeners(active = true) {

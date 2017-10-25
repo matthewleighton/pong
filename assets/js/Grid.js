@@ -1,6 +1,6 @@
 class Grid {
 	constructor(game) {
-		console.log(game);
+		//console.log(game);
 		this.game = game;
 
 		this.height = game.resolution;
@@ -10,7 +10,7 @@ class Grid {
 		
 		this.gridArray = this.createGrid();
 
-		console.log(this.gridArray);
+		//console.log(this.gridArray);
 	}
 
 	/**
@@ -102,10 +102,13 @@ class Grid {
 			if (object.objectType == 'ball') {
 				object.updateMovementAfterCollision();
 				movement = object.momentum;
+				//this.game.stopGameLoop();
 			} else {
 				return false;
 			}
 		}
+
+		console.log(movement);
 
 		this.drawSquares(object, 'empty');
 
@@ -117,6 +120,9 @@ class Grid {
 
 		object.originX += object.percentageToPixel(movement.x);
 		object.originY += object.percentageToPixel(movement.y);
+		
+		//object.originX += movement.x;
+		//object.originY += movement.y;
 
 		this.drawSquares(object);
 
@@ -145,6 +151,9 @@ class Grid {
 
 		if (object.objectType == 'ball' && valid == true) {
 			// Ball needs to do an extra check for collision with paddles.
+			
+			
+
 			return !this.isPaddleCollision(object, objectEdgesPoints);
 		} else {
 			return valid;
@@ -154,6 +163,7 @@ class Grid {
 	isPaddleCollision(ball, ballEdges) {
 		let cornerOne,
 			cornerTwo,
+			collision = false,
 			collisionSide,
 			collisionCorners,
 			cornerSquare;
@@ -186,38 +196,44 @@ class Grid {
 		}
 
 		if (this.testSquaresForType(collisionCorners, 'paddle')) {
-			ball.collisionSide = collisionSide;
-			return true;
+			collision = true;
 		}
 
-		if (ball.momentum.y > 0) {
-			collisionSide = 'top';
-			collisionCorners = [
-				{
-					x: ballEdges.left,
-					y: ballEdges.top
-				},
-				{
-					x: ballEdges.right,
-					y: ballEdges.top
-				}
-			];
-		} else if (ball.momentum.y < 0) {
-			collisionSide = 'bottom';
-			collisionCorners = [
-				{
-					x: ballEdges.left,
-					y: ballEdges.top
-				},
-				{
-					x: ballEdges.right,
-					y: ballEdges.top
-				}
-			];
+		if (!collision) {
+			if (ball.momentum.y > 0) {
+				collisionSide = 'top';
+				collisionCorners = [
+					{
+						x: ballEdges.left,
+						y: ballEdges.top
+					},
+					{
+						x: ballEdges.right,
+						y: ballEdges.top
+					}
+				];
+			} else if (ball.momentum.y < 0) {
+				collisionSide = 'bottom';
+				collisionCorners = [
+					{
+						x: ballEdges.left,
+						y: ballEdges.top
+					},
+					{
+						x: ballEdges.right,
+						y: ballEdges.top
+					}
+				];
+			}
+
+			if (this.testSquaresForType(collisionCorners, 'paddle')) {
+				collision = true;
+			}
 		}
 
-		if (this.testSquaresForType(collisionCorners, 'paddle')) {
+		if (collision) {
 			ball.collisionSide = collisionSide;
+			ball.updatePaddleCollisionPosition();
 			return true;
 		}
 

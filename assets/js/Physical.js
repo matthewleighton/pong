@@ -21,17 +21,6 @@ class Physical {
 				this[key] = game[key];
 			};
 		}
-
-		console.log(this);
-		
-		//console.log(config);
-
-		//heightFromOrigin
-		//widthFromOrigin
-		//player
-		//originX
-		//originY
-		//
 	}
 
 	percentageToPixel(percentage) {
@@ -41,12 +30,20 @@ class Physical {
 		let negative = percentage < 0 ? true : false;
 		percentage = Math.abs(percentage);
 
-		var pixel = Math.floor((this.resolution / 100) * percentage);
+		//console.log(percentage);
+
+		var pixel = Math.floor(this.resolution / 100 * percentage);
+		//console.log(this.resolution / 100 * percentage);
+
+		//console.log(percentage);
+		//console.log((this.resolution / 100) * percentage);
 		if (pixel == 0) return 1;
 
 		if (negative) {
 			pixel = 0 - pixel;
 		}
+
+		//console.log(pixel);
 
 		return pixel;
 	}
